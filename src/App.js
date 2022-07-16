@@ -8,24 +8,30 @@ import Dashboard from "./components/Dashboard"
 import { Link, Route, Routes } from "react-router-dom";
 
 const App = () => {
+
+  const [token, setToken] = useState();
+	const [user, setUser] = useState();
+  const [isLoggedIn, setIsLoggedIn] = useState()
+  const [authorID, setAuthorID] = useState()
+
 	const getToken = () => {
 		const tokenString = localStorage.getItem("token");
 		const userToken = JSON.parse(tokenString);
-		console.log("userToken", userToken);
+    if(userToken) {setIsLoggedIn(true)}
 		return userToken?.token;
 	};
-	const [token, setToken] = useState();
-	const [user, setUser] = useState();
+
 
 	getToken();
-	console.log("token in app.js", token);
 
 	const logOutUser = () => {
 		setToken("");
 		localStorage.clear();
+    setIsLoggedIn(false)
 	};
 
-	if (!token) {
+
+	if (!isLoggedIn) {
 		return (
 			<div>
 				<header>
@@ -35,16 +41,16 @@ const App = () => {
 				</header>
 
 				<Routes>
-					<Route exact path='/' element={<Posts />}></Route>
+					<Route exact path='/' element={<Posts token={token} isLoggedIn={isLoggedIn} />}></Route>
 					<Route
 						exact
 						path='/login'
-						element={<LogIn setToken={setToken} setUser={setUser} />}
+						element={<LogIn setToken={setToken} setUser={setUser} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>}
 					></Route>
 					<Route
 						exact
 						path='register'
-						element={<Register setToken={setToken} setUser={setUser} />}
+						element={<Register setToken={setToken} setUser={setUser} setIsLoggedIn={setIsLoggedIn}/>}
 					></Route>
 				</Routes>
 			</div>
@@ -61,7 +67,7 @@ const App = () => {
 				</header>
 
 				<Routes>
-					<Route exact path='/' element={<Posts />}></Route>
+					<Route exact path='/' element={<Posts token={token} isLoggedIn={isLoggedIn} />}></Route>
 					<Route exact path='/submitpost'	element={<SubmitPost token={token} />}></Route>
           <Route exact path='/dashboard' element={<Dashboard token={token} />}></Route>
 				</Routes>

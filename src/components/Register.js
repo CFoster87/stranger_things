@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Posts from "./Posts";
 
 async function registerUser(username, password) {
-	console.log(username, password);
 	return fetch(
 		"https://strangers-things.herokuapp.com/api/2204-ftb-et-web-pt/users/register",
 		{
@@ -20,13 +19,12 @@ async function registerUser(username, password) {
 	)
 		.then((response) => response.json())
 		.then((result) => {
-			console.log("data", result);
 			return result;
 		})
 		.catch(console.error);
 }
 
-export default function Register({ setToken, setUser }) {
+export default function Register({ setToken, setUser, setIsLoggedIn }) {
 	const [username, setUsername] = useState();
 	const [password, setPassword] = useState();
 	const [verify, setVerify] = useState();
@@ -39,6 +37,7 @@ export default function Register({ setToken, setUser }) {
 			const user = setUser(username);
 			localStorage.setItem("token", JSON.stringify(token));
 			setToken(token);
+            setIsLoggedIn(true)
 		} else {
 			alert("Passwords do not match!");
 		}

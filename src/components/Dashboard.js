@@ -5,7 +5,7 @@ export default function Dashboard(props) {
 
     const [posts, setPosts] = useState()
     const [messages, setMessages] = useState()
-
+    
     const token = props.token
 
 useEffect(() => {
@@ -21,12 +21,14 @@ useEffect(() => {
   .then(result => {
     setPosts(result.data.posts)
     setMessages(result.data.messages)
-    
     console.log(result);
   })
   .catch(console.error);
+  console.log("inside", posts)
 }
 fetchPostsAndMessages()
+
+console.log("outside", posts)
 
     }, [])
 
@@ -35,7 +37,7 @@ fetchPostsAndMessages()
         <div>
 			<h1> Posts </h1>
 
-			{posts.map((post) => {
+			{/* {posts.map((post) => {
 				return (
 					<div key={post._id}>
 						<h2>{post.title}</h2>
@@ -62,7 +64,7 @@ fetchPostsAndMessages()
 						<p>{message.content}</p>
 					</div>
 				);
-			})}
+			})} */}
 		</div>
     </div>
 }

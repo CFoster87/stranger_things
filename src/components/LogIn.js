@@ -1,8 +1,9 @@
+import { setSelectionRange } from "@testing-library/user-event/dist/utils";
 import React, { useState } from "react";
 import Posts from "./Posts";
 
 async function loginUser(username, password) {
-	console.log(username, password);
+
 	return fetch(
 		"https://strangers-things.herokuapp.com/api/2204-ftb-et-web-pt/users/login",
 		{
@@ -25,7 +26,7 @@ async function loginUser(username, password) {
 		});
 }
 
-export default function LogIn({ setToken, setUser }) {
+export default function LogIn({ setToken, setUser, isLoggedIn, setIsLoggedIn }) {
 	const [username, setUsername] = useState();
 	const [password, setPassword] = useState();
 
@@ -37,9 +38,11 @@ export default function LogIn({ setToken, setUser }) {
 		sessionStorage.setItem("token", JSON.stringify(token));
 		if (!data.data.success) {
 			setToken(token);
+            setIsLoggedIn(true)
 		} else {
 			alert("Username or Password is invalid, try again.");
-		}
+		} 
+
 	};
 
 	return (

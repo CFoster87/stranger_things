@@ -13,7 +13,6 @@ export default function SubmitPost(props) {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log("submitted");
 		fetch(
 			"https://strangers-things.herokuapp.com/api/2204-ftb-et-web-pt/posts",
 			{
@@ -66,7 +65,7 @@ export default function SubmitPost(props) {
 					<input type='text' onChange={(e) => setPrice(e.target.value)} />
 				</label>
                 <div>
-                    <input type="checkbox" id="deliver" name="deliver" value="deliver"></input>
+                    <input type="checkbox" id="deliver" name="deliver" value="deliver" onChange={(e) => setDeliver(e.target.value)}></input>
                     <label for="deliver"> I will deliver</label>
                 </div>
 				<div>
