@@ -1,6 +1,6 @@
-import { setSelectionRange } from "@testing-library/user-event/dist/utils";
 import React, { useState } from "react";
-import Posts from "./Posts";
+import { useNavigate } from 'react-router';
+
 
 async function loginUser(username, password) {
 
@@ -26,26 +26,39 @@ async function loginUser(username, password) {
 		});
 }
 
-export default function LogIn({ setToken, setUser, isLoggedIn, setIsLoggedIn }) {
+export default function LogIn({ setToken, setUser, setIsLoggedIn }) {
 	const [username, setUsername] = useState();
 	const [password, setPassword] = useState();
+
+    const navigate = useNavigate()
+
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const data = await loginUser(username, password);
 		const token = data.data.token;
-		const user = setUser(username);
+		setUser(username);
 		sessionStorage.setItem("token", JSON.stringify(token));
 		if (!data.data.success) {
 			setToken(token);
             setIsLoggedIn(true)
+            navigate('/')
 		} else {
 			alert("Username or Password is invalid, try again.");
 		} 
 
 	};
 
+	const loginStyle = {
+		div: {
+			display: "flex",
+			alignItems: "center",
+			justifyContent: "center"
+		}
+	}
+
 	return (
+		<div style={loginStyle.div}>
 		<form onSubmit={handleSubmit}>
 			<h2>Please Login!</h2>
 			<label>
@@ -60,5 +73,6 @@ export default function LogIn({ setToken, setUser, isLoggedIn, setIsLoggedIn }) 
 				<button type='submit'>Submit</button>
 			</div>
 		</form>
+		</div>
 	);
 }

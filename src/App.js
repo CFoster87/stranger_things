@@ -12,7 +12,7 @@ const App = () => {
   const [token, setToken] = useState();
 	const [user, setUser] = useState();
   const [isLoggedIn, setIsLoggedIn] = useState()
-  const [authorID, setAuthorID] = useState()
+
 
 	const getToken = () => {
 		const tokenString = localStorage.getItem("token");
@@ -30,14 +30,50 @@ const App = () => {
     setIsLoggedIn(false)
 	};
 
+	const headerStyle = {
+		header: {
+			backgroundColor: "blue",
+			padding: "10px",
+			display: "flex",
+			alignItems: "center"
+
+		},
+		link: {
+			display: "flex",
+			textJustify: "center",
+			backgroundColor: "white",
+			borderRadius: "10px",
+			padding: "5px",
+			margin: "5px",
+			border: "1px solid black"
+		},
+		logout: {
+			display: "flex",
+			float: "right",
+		},
+
+		greeting: {
+			display: "flex",
+		},
+
+		user: {
+			display: "flex",
+			flexDirection: "column",
+			backgroundColor: "white",
+			borderRadius: "15px",
+			padding: "5px"
+		},
+	}
+
 
 	if (!isLoggedIn) {
 		return (
 			<div>
-				<header>
-					<Link to='/'>Home</Link>
-					<Link to='login'>Login</Link>
-					<Link to='/register'>Register</Link>
+				<header style={headerStyle.header}>
+					<h1>Stranger Things</h1>
+					<Link style={headerStyle.link} to='/'>Home</Link>
+					<Link style={headerStyle.link} to='login'>Login</Link>
+					<Link style={headerStyle.link} to='/register'>Register</Link>
 				</header>
 
 				<Routes>
@@ -45,7 +81,7 @@ const App = () => {
 					<Route
 						exact
 						path='/login'
-						element={<LogIn setToken={setToken} setUser={setUser} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>}
+						element={<LogIn setToken={setToken} setUser={setUser} setIsLoggedIn={setIsLoggedIn}/>}
 					></Route>
 					<Route
 						exact
@@ -58,18 +94,21 @@ const App = () => {
 	} else {
 		return (
 			<div>
-				<header className='user-bar'>
+				<header style={headerStyle.header} className='user-bar'>
+					<h1>Stranger Things</h1>
+					<Link style={headerStyle.link} to='/'>Home</Link>
+					<Link style={headerStyle.link} to='/submitpost'>Submit a Post</Link>
+					<div style={headerStyle.user}>
 					<p>Greetings, {user}!</p>
-					<Link to='/'>Home</Link>
-          <Link to='/dashboard'>Dashboard</Link>
-					<Link to='/submitpost'>Submit a Post</Link>
-					<button onClick={logOutUser}>Logout</button>
+					<Link style={headerStyle.link} to='/dashboard'>Dashboard</Link>
+					<button style={headerStyle.link} onClick={logOutUser}>Logout</button>
+					</div>
 				</header>
 
 				<Routes>
 					<Route exact path='/' element={<Posts token={token} isLoggedIn={isLoggedIn} />}></Route>
 					<Route exact path='/submitpost'	element={<SubmitPost token={token} />}></Route>
-          <Route exact path='/dashboard' element={<Dashboard token={token} />}></Route>
+          			<Route exact path='/dashboard' element={<Dashboard token={token} />}></Route>
 				</Routes>
 			</div>
 		);

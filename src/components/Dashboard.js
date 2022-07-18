@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react"
 
 export default function Dashboard(props) {
 
-    const [posts, setPosts] = useState()
-    const [messages, setMessages] = useState()
+    const [posts, setPosts] = useState([])
+    const [messages, setMessages] = useState([])
     
     const token = props.token
 
@@ -21,25 +21,44 @@ useEffect(() => {
   .then(result => {
     setPosts(result.data.posts)
     setMessages(result.data.messages)
-    console.log(result);
+    console.log("fetchPosts Result", result);
   })
   .catch(console.error);
-  console.log("inside", posts)
 }
 fetchPostsAndMessages()
 
-console.log("outside", posts)
 
     }, [])
 
-    return <div>
-        <h1> DASHBOARD </h1>
-        <div>
-			<h1> Posts </h1>
+    const postStyle = {
 
-			{/* {posts.map((post) => {
+        body: {
+          backgroundColor: "grey"
+        },
+        card: {
+          backgroundColor: "lightgrey",
+          display: "block",
+          borderRadius: "30px",
+          paddingTop: "5px",
+          paddingBottom: "5px",
+          paddingLeft: "15px",
+          marginBottom: "5px"
+        },
+        title: {
+          padding: "15px",
+          color: "white",
+          borderBottom: "2px solid black"
+        }
+    }
+
+    return <div>
+        <body style={postStyle.body}>
+        <div>
+			<h1 style={postStyle.title}> Posts </h1>
+
+			{posts.map((post) => {
 				return (
-					<div key={post._id}>
+					<div style={postStyle.card} key={post._id}>
 						<h2>{post.title}</h2>
 						<p>{post.author.username}</p>
 						<p>{post.description}</p>
@@ -47,6 +66,7 @@ console.log("outside", posts)
 						<aside>Price: {post.price}</aside>
                         <p>Will deliver? {post.willDeliver}</p>
 						<p>Last Updated: {post.updatedAt}</p>
+                        
 					</div>
 				);
 			})}
@@ -54,17 +74,18 @@ console.log("outside", posts)
 
 
         <div>
-        <h1> Messages</h1>
+        <h1 style={postStyle.title}> Messages</h1>
 
 			{messages.map((message) => {
 				return (
-					<div key={message._id}>
+					<div style={postStyle.card}>
 						<h2>{message.post.title}</h2>
 						<p>From {message.fromUser.username}</p>
 						<p>{message.content}</p>
 					</div>
 				);
-			})} */}
+			})}
 		</div>
+        </body>
     </div>
 }

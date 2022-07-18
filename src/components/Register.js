@@ -43,7 +43,16 @@ export default function Register({ setToken, setUser, setIsLoggedIn }) {
 		}
 	};
 
+	const registerStyle = {
+		div: {
+			display: "flex",
+			alignItems: "center",
+			justifyContent: "center"
+		}
+	}
+
 	return (
+		<div style={registerStyle.div}>
 		<form onSubmit={handleSubmit}>
 			<h2> Please Register </h2>
 			<label>
@@ -62,5 +71,6 @@ export default function Register({ setToken, setUser, setIsLoggedIn }) {
 				<button type='submit'>Submit</button>
 			</div>
 		</form>
+		</div>
 	);
 }
